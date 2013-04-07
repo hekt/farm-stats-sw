@@ -50,7 +50,7 @@ def calcStats(data):
     rc_a = h + bb + hbp - cs - gd
     rc_b = tb + 0.26 * (bb + hbp) + 0.53 * (sh + sf) + 0.64 * sb - 0.03 * so
     rc_c = ab + bb + hbp + sf + sh
-    rc = (2.4 * rc_c + rc_a) * (3 * rc_c + rc_b) / 9 * rc_c - 0.9 * rc_c\
+    rc = (2.4 * rc_c + rc_a) * (3 * rc_c + rc_b) / (9 * rc_c) - 0.9 * rc_c\
          if rc_c else None
     rc27_a = ab - h + cs + sh + sf + gd
     rc27 = rc / rc27_a * 27 \
@@ -73,6 +73,28 @@ def calcStats(data):
     isod = obp - avg \
            if (avg and obp) else None
 
+    def avgJust(n):
+        return str(n)[1:5].ljust(4, '0') if n < 1 else \
+               str(n)[0:5].ljust(5, '0')
+    def rcJust(n):
+        nn = round(n)
+        idx = str(nn).index('.')
+        return str(nn)[:idx] + str(nn)[idx:].ljust(2, '0')
+
+    avg = avgJust(avg)
+    slg = avgJust(slg)
+    obp = avgJust(obp)
+    ops = avgJust(ops)
+    gpa = avgJust(gpa)
+    noi = round(noi, 1)
+    rc = rcJust(rc)
+    rc27 = rcJust(rc27)
+    xr = rcJust(xr)
+    xr27 = rcJust(xr27)
+    babip = avgJust(babip)
+    isop = avgJust(isop)
+    isod = avgJust(isod)
+
     return {'avg': avg, 'slg': slg, 'obp': obp, 'ops': ops, 'noi': noi,
             'gpa': gpa, 'rc': rc, 'rc27': rc27, 'xr': xr, 'xr27': xr27,
             'babip': babip, 'isop': isop, 'isod': isod}
@@ -81,22 +103,25 @@ def calcStats(data):
 # parse params
 # paramdict = dict(cgi.parse_qsl(os.getenv("QUERY_STRING", "")))
 # query = paramdict['q']
-query = """* FROM swdata ORDER BY pa DESC LIMIT 10"""
+query = """* FROM swdata WHERE team = 'f' ORDER BY pa DESC LIMIT 1"""
 
 # scraperwiki.com
-scraperwiki.sqlite.attach("npb-farm-stats-b")
-data = scraperwiki.sqlite.select(query)
+# scraperwiki.sqlite.attach("npb-farm-stats-b")
+# data = scraperwiki.sqlite.select(query)
 
 # local
-# with sqlite3.connect("scraperwiki.sqlite") as conn:
-#     conn.row_factory = sqlite3.Row
-#     data = conn.execute('select ' + query)
+with sqlite3.connect("scraperwiki.sqlite") as conn:
+    conn.row_factory = sqlite3.Row
+    data = conn.execute('select ' + query)
 
 stats_dic_list = []
 for d in data:
     stats_dic = row2statsDic(d)
     ex_stats_dic = calcStats(d)
+    stats_dic['bats'] = 'R' if stats_dic['bats'] == '' else \
+                        'L' if stats_dic['bats'] == '*' else 'S'
     stats_dic.update(ex_stats_dic)
     stats_dic_list.append(stats_dic)
 
+scraperwiki.utils.httpresponseheader("Content-Type", "application/json")
 print json.dumps(stats_dic_list)
