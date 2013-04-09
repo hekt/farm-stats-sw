@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import cgi
 import json
@@ -5,9 +7,9 @@ import json
 import scraperwiki
 import sqlite3
 
-BASIC_STATS = ['bats', 'name', 'g', 'pa', 'ab', 'r', 'h', 'dbl', 'tpl', 'hr', 
-               'tb', 'rbi', 'sb', 'cs', 'sh', 'sf', 'bb', 'ibb', 'hbp', 'so', 
-               'gd']
+BASIC_STATS = ['team', 'bats', 'name', 'g', 'pa', 'ab', 'r', 'h', 'dbl', 'tpl',
+               'hr', 'tb', 'rbi', 'sb', 'cs', 'sh', 'sf', 'bb', 'ibb', 'hbp',
+               'so', 'gd']
 
 def row2statsDic(data):
     stats = {}
@@ -43,9 +45,12 @@ def calcStats(data):
     obp_b = ab + bb + hbp + sf
     obp = obp_a / obp_b \
           if obp_b else None
-    ops = slg + obp
-    noi = (obp + slg / 3) * 1000
-    gpa = (obp * 1.8 + slg) / 4
+    ops = slg + obp \
+          if (slg is not None and obp is not None) else None
+    noi = (obp + slg / 3) * 1000 \
+          if (slg is not None and obp is not None) else None
+    gpa = (obp * 1.8 + slg) / 4 \
+          if (slg is not None and obp is not None) else None
 
     rc_a = h + bb + hbp - cs - gd
     rc_b = tb + 0.26 * (bb + hbp) + 0.53 * (sh + sf) + 0.64 * sb - 0.03 * so
@@ -69,15 +74,24 @@ def calcStats(data):
             if babip_b else None
 
     isop = slg - avg \
-           if (avg and slg) else None
+           if (avg is not None and slg is not None) else None
     isod = obp - avg \
-           if (avg and obp) else None
+           if (avg is not None and obp is not None) else None
+
+    sbp_a = sb + cs
+    sbp = sb / sbp_a * 100 \
+          if sbp_a else None
 
     def avgJust(n):
+        if n is None:
+            return None
         return str(n)[1:5].ljust(4, '0') if n < 1 else \
                str(n)[0:5].ljust(5, '0')
+               
     def rcJust(n):
-        nn = round(n)
+        if n is None:
+            return None
+        nn = round(n, 1)
         idx = str(nn).index('.')
         return str(nn)[:idx] + str(nn)[idx:].ljust(2, '0')
 
@@ -86,7 +100,7 @@ def calcStats(data):
     obp = avgJust(obp)
     ops = avgJust(ops)
     gpa = avgJust(gpa)
-    noi = round(noi, 1)
+    noi = str(round(noi, 1)) if noi else None
     rc = rcJust(rc)
     rc27 = rcJust(rc27)
     xr = rcJust(xr)
@@ -94,16 +108,17 @@ def calcStats(data):
     babip = avgJust(babip)
     isop = avgJust(isop)
     isod = avgJust(isod)
+    sbp = str(round(sbp, 1)) if sbp else None
 
     return {'avg': avg, 'slg': slg, 'obp': obp, 'ops': ops, 'noi': noi,
             'gpa': gpa, 'rc': rc, 'rc27': rc27, 'xr': xr, 'xr27': xr27,
-            'babip': babip, 'isop': isop, 'isod': isod}
+            'babip': babip, 'isop': isop, 'isod': isod, 'sbp': sbp}
 
 
 # parse params
 # paramdict = dict(cgi.parse_qsl(os.getenv("QUERY_STRING", "")))
 # query = paramdict['q']
-query = """* FROM swdata WHERE team = 'f' ORDER BY pa DESC LIMIT 1"""
+query = """* FROM swdata WHERE team = 'g'"""
 
 # scraperwiki.com
 # scraperwiki.sqlite.attach("npb-farm-stats-b")
@@ -118,6 +133,7 @@ stats_dic_list = []
 for d in data:
     stats_dic = row2statsDic(d)
     ex_stats_dic = calcStats(d)
+    stats_dic['name'] = stats_dic['name'].replace(u'　', u' ')
     stats_dic['bats'] = 'R' if stats_dic['bats'] == '' else \
                         'L' if stats_dic['bats'] == '*' else 'S'
     stats_dic.update(ex_stats_dic)
