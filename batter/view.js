@@ -1,10 +1,10 @@
 (function($) {
   $(function() {
 
-      var BASE_QUERY = 'select * from swdata where ';
+      var BASE_QUERY = '* from swdata where team = ';
       var STATS = ['team', 'bats', 'name', 'g', 'pa', 'ab', 'r', 'h', 'dbl', 'tpl', 'hr',  'tb', 'rbi', 'sb', 'cs', 'sbp', 'sh', 'sf', 'bb', 'ibb', 'hbp', 'so', 'gd', 'avg', 'slg', 'obp', 'ops', 'noi', 'gpa', 'rc', 'rc27', 'xr', 'xr27', 'babip', 'isop', 'isod']
       var showSwitch = {'team': 1, 'bats': 0, 'name': 1, 'g': 1, 'pa': 1, 'ab': 1, 'r': 1, 'h': 1, 'dbl': 0, 'tpl': 0, 'hr': 1,  'tb': 0, 'rbi': 1, 'sb': 1, 'cs': 0, 'sbp': 0, 'sh': 1, 'sf': 1, 'bb': 1, 'ibb': 0, 'hbp': 1, 'so': 1, 'gd': 1, 'avg': 1, 'slg': 0, 'obp': 0, 'ops': 1, 'noi': 0, 'gpa': 0, 'rc': 0, 'rc27': 0, 'xr': 0, 'xr27': 0, 'babip': 0, 'isop': 0, 'isod': 0}
-      var loadedFlags = {'f': 0, 'g': 0};
+      var loadedFlags = {'m': 0, 'g': 0, 'de': 0, 'e': 0, 'f': 0, 's': 0, 'l': 0, 't': 0, 'bs': 0, 'h': 0, 'd': 0, 'c': 0}
 
       function printd(str) {
           var out = document.getElementById("debug");
@@ -13,12 +13,15 @@
       }
 
       function ajaxLoader(team) {
-          query = BASE_QUERY + "'" + team + "'";
+          var query = BASE_QUERY + "'" + team + "'";
           $.ajax({
-              // url: 'https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=npb-farm-stats-b&q=' + encodeURI(query),
-              url: './example_' + team + '.json',
+              url: 'https://views.scraperwiki.com/run/npb-farm-stats-b-json/?q=' + encodeURI(query),
+              // url: './example_' + team + '.json',
               dataType: 'json',
-              success: function(data){ viewer(data); }
+              success: function(data){
+                  $(".loading").removeClass("loading");
+                  viewer(data);
+              }
           });
       }
 
@@ -56,15 +59,16 @@
       function toggleStat(elem) {
           if (elem.attr("checked") == "checked") {
               showSwitch[elem.val()] = 1;
-              $("#main_table td." + elem.val()).removeClass("hide_column");
+              $("#main_table tr ." + elem.val()).removeClass("hide_column");
           } else {
               showSwitch[elem.val()] = 0;
-              $("#main_table td." + elem.val()).addClass("hide_column");
+              $("#main_table tr ." + elem.val()).addClass("hide_column");
           } 
       }
       function toggleTeam(elem) {
           team = elem.val();
           if (loadedFlags[team] == 0) {
+              elem.parent().parent().addClass('loading');
               ajaxLoader(team);
               loadedFlags[team] = 1;
           } else {

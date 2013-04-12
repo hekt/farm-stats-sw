@@ -116,18 +116,18 @@ def calcStats(data):
 
 
 # parse params
-# paramdict = dict(cgi.parse_qsl(os.getenv("QUERY_STRING", "")))
-# query = paramdict['q']
-query = """* FROM swdata WHERE team = 'g'"""
+paramdict = dict(cgi.parse_qsl(os.getenv("QUERY_STRING", "")))
+query = paramdict['q']
+# query = """* FROM swdata WHERE team = 'g'"""
 
 # scraperwiki.com
-# scraperwiki.sqlite.attach("npb-farm-stats-b")
-# data = scraperwiki.sqlite.select(query)
+scraperwiki.sqlite.attach("npb-farm-stats-b")
+data = scraperwiki.sqlite.select(query)
 
 # local
-with sqlite3.connect("scraperwiki.sqlite") as conn:
-    conn.row_factory = sqlite3.Row
-    data = conn.execute('select ' + query)
+# with sqlite3.connect("scraperwiki.sqlite") as conn:
+#     conn.row_factory = sqlite3.Row
+#     data = conn.execute('select ' + query)
 
 stats_dic_list = []
 for d in data:
@@ -140,4 +140,5 @@ for d in data:
     stats_dic_list.append(stats_dic)
 
 scraperwiki.utils.httpresponseheader("Content-Type", "application/json")
+scraperwiki.utils.httpresponseheader("Access-Control-Allow-Origin", "dev.hekt.org")
 print json.dumps(stats_dic_list)
