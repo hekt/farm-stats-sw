@@ -132,22 +132,24 @@
           }
           $("#main_table td." + reg_stats).filter( function() {
               m = parseFloat($(this).html());
-              return f(m, n);
+              return !f(m, n);
           }).parent().addClass('filtered');
 
           filter_temp = exp;
       }
       function comp(exp) {
           if (exp.indexOf(">=") == 0) {
-              return function(n, m) {return m >= n};
+              return function(n, m) {return n >= m};
           } else if (exp.indexOf("<=") == 0) {
-              return function(n, m) {return m <= n};
+              return function(n, m) {return n <= m};
           } else if (exp.indexOf("<") == 0) {
-              return function(n, m) {return m < n};
+              return function(n, m) {return n < m};
           } else if (exp.indexOf(">") == 0) {
-              return function(n, m) {return m > n};
+              return function(n, m) {return n > m};
+          } else if (exp.indexOf("=") == 0) {
+              return function(n, m) {return n == m};
           } else {
-              return function(n, m) {return m >= n};
+              return function(n, m) {return n >= m};
           }
       }
 
