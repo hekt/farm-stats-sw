@@ -244,9 +244,11 @@ tr.pinned td {
 }
 th {
     cursor: pointer;
+    padding-top: 8px;
+    padding-bottom: 8px;
     background-color: #eee;
+    line-height: 16px;
     text-align: center;
-    line-height: 32px;
     font-size: 90%;
     color: #444;
 }
