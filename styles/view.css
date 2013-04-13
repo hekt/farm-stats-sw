@@ -267,7 +267,7 @@ td.team {
 td.name {
     text-align: left;
 }
-td.bats {
+td.bats, td.throws {
     text-align: center;
 }
 .hide_column,
