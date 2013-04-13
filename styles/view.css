@@ -234,7 +234,7 @@ header nav a:hover {
 }
 th, td {
     padding: 0 6px;
-    line-height: 2;
+    line-height: 16px;
 }
 tr:hover td {
     background-color: #faf6dd;
@@ -256,11 +256,13 @@ th:hover {
     text-decoration: underline;
 }
 td {
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
     text-align: right;
 }
 tbody tr:first-child td {
-    padding-top: 2px;
+    padding-top: 7px;
 }
 td.team {
     text-transform: uppercase;
