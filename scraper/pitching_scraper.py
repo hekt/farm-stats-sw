@@ -82,7 +82,7 @@ def calcStats(data, league_data):
           if outs else None
 
     lobp_a = h + bb + hbp - 1.4 * hr
-    lobp = (h + bb + hbp - r) / lobp_a if lobp_a else None
+    lobp = (h + bb + hbp - r) / lobp_a * 100 if lobp_a else None
     kbb = so / bb if bb else None
     k9 = so * 9 * 3 / outs if outs else None
     bb9 = bb * 9 * 3 / outs if outs else None
@@ -107,7 +107,7 @@ def calcStats(data, league_data):
     era = eraJust(era)
     whip = eraJust(whip)
     fip = eraJust(fip)
-    lobp = str(round(lobp, 2)) if lobp else lobp
+    lobp = str(round(lobp, 1)) if lobp else lobp
     kbb = eraJust(kbb)
     k9 = eraJust(k9)
     bb9 = eraJust(bb9)

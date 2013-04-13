@@ -96,9 +96,8 @@ def calcStats(data):
     isod = obp - avg \
            if (avg is not None and obp is not None) else None
 
-    sbp_a = sb + cs
-    sbp = sb / sbp_a * 100 \
-          if sbp_a else None
+    sbp = sb / (sb + cs) * 100 \
+          if (cs or sb) else None
 
     def avgJust(n):
         if n is None:
