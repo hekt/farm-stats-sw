@@ -4,7 +4,9 @@ import datetime
 
 YEAR = '2013'
 
-SCRAPE_STATS = ['throws', 'name', 'g', 'w', 'l', 'sv', 'cg', 'sho', 'zbc', 'wpct', 'bf', 'ip1', 'ip2', 'h', 'hr', 'bb', 'ibb', 'hbp', 'so', 'wp', 'bk', 'r', 'er']
+SCRAPE_STATS = ['throws', 'name', 'g', 'w', 'l', 'sv', 'cg', 'sho', 'zbc',
+                'wpct', 'bf', 'ip1', 'ip2', 'h', 'hr', 'bb', 'ibb', 'hbp',
+                'so', 'wp', 'bk', 'r', 'er']
 SCRAPE_STATS_LENGTH = len(SCRAPE_STATS)
 EASTS = ['f', 'g', 'e', 's', 'l', 'db', 'm']
 WESTS = ['d', 'h', 't', 'bs', 'c']
@@ -114,7 +116,9 @@ def calcStats(data, league_data):
     babip = babipJust(babip)
     wpct = babipJust(wpct)
     
-    return {'wpct': wpct, 'ip': ip, 'era': era, 'whip': whip, 'fip': fip, 'lobp': lobp, 'kbb': kbb, 'k9': k9, 'bb9': bb9, 'hr9': hr9, 'ipg': ipg, 'babip': babip}
+    return {'wpct': wpct, 'ip': ip, 'era': era, 'whip': whip, 'fip': fip,
+            'lobp': lobp, 'kbb': kbb, 'k9': k9, 'bb9': bb9, 'hr9': hr9,
+            'ipg': ipg, 'babip': babip}
 
 
 def scrape(team):
