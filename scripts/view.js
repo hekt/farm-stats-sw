@@ -46,6 +46,7 @@
       }
 
       var filter_temp = "";
+      var filter_pf = $(".pa_filter input").val();
 
       function ajaxLoader(team) {
           var query = BASE_QUERY + "'" + team + "'";
@@ -103,22 +104,26 @@
           }
       }
       function toggleStat(elem) {
+          v = elem.val();
           if (elem.attr("checked") == "checked") {
-              flags[elem.val()] = 1;
-              $("#main_table tr ." + elem.val()).removeClass("hide_column");
+              flags[v] = 1;
+              $("#main_table tr ." + v).removeClass("hide_column");
+              _gaq.push(['_trackEvent', 'controller', 'stat', 'Show ' + v]);
           } else {
-              flags[elem.val()] = 0;
-              $("#main_table tr ." + elem.val()).addClass("hide_column");
+              flags[v] = 0;
+              $("#main_table tr ." + v).addClass("hide_column");
+              _gaq.push(['_trackEvent', 'controller', 'stat', 'Hide ' + v]);
           } 
       }
       function toggleTeam(elem) {
-          team = elem.val();
-          if (loaded_team_flags[team] == 0) {
+          v = elem.val();
+          if (loaded_team_flags[v] == 0) {
               elem.parent().parent().addClass('loading');
-              ajaxLoader(team);
-              loaded_team_flags[team] = 1;
+              ajaxLoader(v);
+              loaded_team_flags[v] = 1;
+              _gaq.push(['_trackEvent', 'controller', 'team', 'Load ' + v]);
           } else {
-              $("#main_table tr." + team).toggleClass("hide_column");
+              $("#main_table tr." + v).toggleClass("hide_column");
           }
       }
       function paFilter(exp) {
@@ -139,34 +144,31 @@
       }
       function comp(exp) {
           if (exp.indexOf(">=") == 0) {
-              return function(n, m) {return n >= m};
+              return function(n, m) { return n >= m; };
           } else if (exp.indexOf("<=") == 0) {
-              return function(n, m) {return n <= m};
+              return function(n, m) { return n <= m; };
           } else if (exp.indexOf("<") == 0) {
-              return function(n, m) {return n < m};
+              return function(n, m) { return n < m; };
           } else if (exp.indexOf(">") == 0) {
-              return function(n, m) {return n > m};
+              return function(n, m) { return n > m; };
           } else if (exp.indexOf("=") == 0) {
-              return function(n, m) {return n == m};
+              return function(n, m) { return n == m; };
           } else {
-              return function(n, m) {return n >= m};
+              return function(n, m) { return n >= m; };
           }
       }
 
       // pinned
       $("#main_table").delegate("td", "click", function() {
-          $(this).parent().toggleClass("pinned");
-      });
+          $(this).parent().toggleClass("pinned"); });
       $("#main_table").delegate("td", "dblclick", function() {
           $(".pinned").removeClass("pinned");
           $(this).parent().addClass("pinned");
       });
 
       // events
-      $(".controllers h1").click(
-          function() { 
-              $(this).parent().toggleClass("show");
-          });
+      $(".controllers h1").click(function() {
+          $(this).parent().toggleClass("show"); });
       $(".view_stats input").change(function() {
           toggleStat($(this)); });
       $(".view_teams input").change(function() {
@@ -177,7 +179,7 @@
       });
       $(".pa_filter input").blur(function() {
           if ($(this).val() == '') {
-              $(this).val('打席フィルター');
+              $(this).val(filter_pf);
           }
           $('.pa_filter').removeClass('active') });
       $(".pa_filter form").submit(function() {
@@ -191,5 +193,16 @@
       initCheckboxes();
       initThs();
       $("#main_table").tablesorter();
+
+      // Google Analytics
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-1886227-6']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
   });
 })(jQuery);
