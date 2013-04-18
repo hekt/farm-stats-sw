@@ -1,5 +1,7 @@
 (function($) {
   $(function() {
+      $.cookie.json = true;
+
       var BASE_QUERY = 'select * from swdata where team = ';
       var BATTING_URL =
           "https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=npb-farm-stats-b&query=";
@@ -32,21 +34,33 @@
           {'m': 0, 'g': 0, 'db': 0, 'e': 0, 'f': 0, 's': 0, 'l': 0,
            't': 0, 'bs': 0, 'h': 0, 'd': 0, 'c': 0}
 
+      var cookie_options = {expires: 30, domain: 'dev.hekt.org'}
+
       var flags, reg_stats, STATS, BASE_URL;
       if ($("html").attr("class") == "batting") {
           STATS = BATTING_STATS;
           BASE_URL = BATTING_URL;
           flags = batting_flags;
           reg_stats = 'pa';
+          cookie_options['path'] = '/farm-stats/batting/';
       } else {
           STATS = PITCHING_STATS;
           BASE_URL = PITCHING_URL;
           flags = pitching_flags;
           reg_stats = 'ip';
+          cookie_options['path'] = '/farm-stats/pitching/'
       }
 
       var filter_temp = "";
       var filter_pf = $(".pa_filter input").val();
+
+      function readCookie() {
+          c = $.cookie('stat_flags');
+          if (c) { flags = c; }
+      }
+      function writeCookie() {
+          $.cookie('stat_flags', flags, cookie_options);
+      }
 
       function ajaxLoader(team) {
           var query = BASE_QUERY + "'" + team + "'";
@@ -108,10 +122,12 @@
           if (elem.attr("checked") == "checked") {
               flags[v] = 1;
               $("#main_table tr ." + v).removeClass("hide_column");
+              writeCookie();
               _gaq.push(['_trackEvent', 'controller', 'stat', 'Show ' + v]);
           } else {
               flags[v] = 0;
               $("#main_table tr ." + v).addClass("hide_column");
+              writeCookie();
               _gaq.push(['_trackEvent', 'controller', 'stat', 'Hide ' + v]);
           } 
       }
@@ -190,10 +206,10 @@
           return false;
       });
 
+      readCookie();
       initCheckboxes();
       initThs();
       $("#main_table").tablesorter();
-
 
   });
 })(jQuery);
