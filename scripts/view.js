@@ -4,11 +4,11 @@
 
       var BASE_QUERY = 'select * from swdata where team = ';
       var BATTING_URL =
-          "https://api.scraperwiki.com/api/1.0/datastore/sqlite?" +
-          "format=jsondict&name=npb-farm-stats-b&query=";
+          'https://api.scraperwiki.com/api/1.0/datastore/sqlite?' +
+          'format=jsondict&name=npb-farm-stats-b&query=';
       var PITCHING_URL =
-          "https://api.scraperwiki.com/api/1.0/datastore/sqlite?" +
-          "format=jsondict&name=npb-farm-stats-p&query=";
+          'https://api.scraperwiki.com/api/1.0/datastore/sqlite?' +
+          'format=jsondict&name=npb-farm-stats-p&query=';
       var BATTING_STATS =
           ['team', 'bats', 'name', 'g', 'pa', 'ab', 'r', 'h', 'dbl', 'tpl',
            'hr',  'tb', 'rbi', 'sb', 'cs', 'sbp', 'sh', 'sf', 'bb', 'ibb',
@@ -39,7 +39,7 @@
       var cookieOptions = {expires: 30, domain: 'dev.hekt.org'};
 
       var flags, criterionStat, STATS, BASE_URL;
-      if ($("html").attr("class") == "batting") {
+      if ($('html').attr('class') == 'batting') {
           STATS = BATTING_STATS;
           BASE_URL = BATTING_URL;
           flags = battingFlags;
@@ -53,8 +53,8 @@
           cookieOptions['path'] = '/farm-stats/pitching/';
       }
 
-      var filterCache = "";
-      var filterPlaceholder = $("#pa-filter-box").val();
+      var filterCache = '';
+      var filterPlaceholder = $('#pa-filter-box').val();
 
       function readCookie() {
           c = $.cookie('stat-flags');
@@ -70,7 +70,7 @@
               url: BASE_URL + encodeURI(query),
               dataType: 'json',
               success: function(data){
-                  $(".loading").removeClass("loading");
+                  $('.loading').removeClass('loading');
                   viewer(data);
               }
           });
@@ -78,17 +78,15 @@
 
       function viewer(data) {
           var row, cell;
-          var table = $("#main-table tbody")
+          var table = $('#main-table tbody')
           var team = data[0]['team'];
 
           for (i=0; i<data.length; i++) {
               if (data[i]['pa'] != 0) {
-                  row = $("<tr></tr>").attr("class", team);
+                  row = $('<tr></tr>').attr('class', team);
                   for (j=0; j<STATS.length; j++) {
                       st = STATS[j]
-                      cell = $("<td></td>")
-                          .attr("class", st)
-                          .html(data[i][st])
+                      cell = $("<td></td>").attr('class', st).html(data[i][st])
                       if (flags[st] === 0) {
                           cell.addClass('hide-column');
                       }
@@ -98,37 +96,37 @@
               }
           }
           paFilter(filterCache);
-          $("#main-table").trigger("update");
+          $('#main-table').trigger('update');
       }
 
       function initCheckboxes() {
-          $("#view-stats input").filter(function() {
+          $('#view-stats input').filter(function() {
               return flags[$(this).val()] == 1;
-          }).attr("checked", true);
+          }).attr('checked', true);
       }
       function initThs() {
-          $("#main-table th").filter(function () {
-              return flags[$(this).attr("class")] == 0;
-          }).addClass("hide-column");
+          $('#main-table th').filter(function () {
+              return flags[$(this).attr('class')] == 0;
+          }).addClass('hide-column');
       }
       
       function toggleCheck(elem) {
-          if (elem.attr("checked")) {
-              elem.removeAttr("checked");
+          if (elem.attr('checked')) {
+              elem.removeAttr('checked');
           } else {
-              elem.attr("checked", "checked");
+              elem.attr('checked', 'checked');
           }
       }
       function toggleStat(elem) {
           v = elem.val();
-          if (elem.attr("checked") == "checked") {
+          if (elem.attr('checked') == 'checked') {
               flags[v] = 1;
-              $("#main-table tr ." + v).removeClass("hide-column");
+              $('#main-table tr .' + v).removeClass('hide-column');
               writeCookie();
               _gaq.push(['_trackEvent', 'controller', 'stat', 'Show ' + v]);
           } else {
               flags[v] = 0;
-              $("#main-table tr ." + v).addClass("hide-column");
+              $('#main-table tr .' + v).addClass('hide-column');
               writeCookie();
               _gaq.push(['_trackEvent', 'controller', 'stat', 'Hide ' + v]);
           } 
@@ -141,11 +139,11 @@
               loadedTeamFlags[v] = 1;
               _gaq.push(['_trackEvent', 'controller', 'team', 'Load ' + v]);
           } else {
-              $("#main-table tr." + v).toggleClass("hide-column");
+              $('#main-table tr.' + v).toggleClass('hide-column');
           }
       }
       function paFilter(exp) {
-          $("#main-table tr.filtered").removeClass("filtered");
+          $('#main-table tr.filtered').removeClass('filtered');
           f = comp(exp);
           n = exp.match(/[0-9]+/)
           if (!n) {
@@ -153,7 +151,7 @@
           } else {
               n = n[0]
           }
-          $("#main-table td." + criterionStat).filter( function() {
+          $('#main-table td.' + criterionStat).filter( function() {
               m = parseFloat($(this).html());
               return !f(m, n);
           }).parent().addClass('filtered');
@@ -161,15 +159,15 @@
           filterCache = exp;
       }
       function comp(exp) {
-          if (exp.indexOf(">=") == 0) {
+          if (exp.indexOf('>=') == 0) {
               return function(n, m) { return n >= m; };
-          } else if (exp.indexOf("<=") == 0) {
+          } else if (exp.indexOf('<=') == 0) {
               return function(n, m) { return n <= m; };
-          } else if (exp.indexOf("<") == 0) {
+          } else if (exp.indexOf('<') == 0) {
               return function(n, m) { return n < m; };
-          } else if (exp.indexOf(">") == 0) {
+          } else if (exp.indexOf('>') == 0) {
               return function(n, m) { return n > m; };
-          } else if (exp.indexOf("=") == 0) {
+          } else if (exp.indexOf('=') == 0) {
               return function(n, m) { return n == m; };
           } else {
               return function(n, m) { return n >= m; };
@@ -177,41 +175,41 @@
       }
 
       // pinned
-      $("#main-table").delegate("td", "click", function() {
-          $(this).parent().toggleClass("pinned"); });
-      $("#main-table").delegate("td", "dblclick", function() {
-          $(".pinned").removeClass("pinned");
-          $(this).parent().addClass("pinned");
+      $('#main-table').delegate('td', 'click', function() {
+          $(this).parent().toggleClass('pinned'); });
+      $('#main-table').delegate('td', 'dblclick', function() {
+          $('.pinned').removeClass('pinned');
+          $(this).parent().addClass('pinned');
       });
 
       // events
-      $("#controllers h1").click(function() {
-          $(this).parent().toggleClass("show"); });
-      $("#view-stats input").change(function() {
+      $('#controllers h1').click(function() {
+          $(this).parent().toggleClass('show'); });
+      $('#view-stats input').change(function() {
           toggleStat($(this)); });
-      $("#view-teams input").change(function() {
+      $('#view-teams input').change(function() {
           toggleTeam($(this)); });
-      $("#pa-filter-box").focus(function() {
+      $('#pa-filter-box').focus(function() {
           $(this).val('');
           $('#pa-filter').addClass('active')
       });
-      $("#pa-filter-box").blur(function() {
+      $('#pa-filter-box').blur(function() {
           if ($(this).val() == '') {
               $(this).val(filterPlaceholder);
           }
           $('#pa-filter').removeClass('active') });
-      $("#pa-filter form").submit(function() {
-          var v = $(this).children("input").val()
-          if (!v) { v = "0"; }
-          paFilter($(this).children("input").val());
-          $(this).children("input").blur();
+      $('#pa-filter form').submit(function() {
+          var v = $(this).children('input').val()
+          if (!v) { v = '0'; }
+          paFilter($(this).children('input').val());
+          $(this).children('input').blur();
           return false;
       });
 
       readCookie();
       initCheckboxes();
       initThs();
-      $("#main-table").tablesorter();
+      $('#main-table').tablesorter();
 
   });
 })(jQuery);
