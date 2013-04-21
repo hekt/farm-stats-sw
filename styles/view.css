@@ -276,7 +276,7 @@ tr:first-child td {
 tr:hover td {
     background-color: #faf6dd;
 }
-.pinned td {
+tr.pinned td {
     background-color: #fed;
 }
 td.team {
