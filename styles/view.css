@@ -6,9 +6,13 @@ body {
     font-family: sans-serif;
     color: #111;
 }
-h1, ul, li {
+
+h1,
+ul,
+li {
     margin: 0;
 }
+
 a {
     color: #44E;
 }
@@ -30,13 +34,15 @@ header:after {
     clear: both;
     content: ""
 }
-header h1 {
+
+#title {
     float: left;
     line-height: 64px;
     font-size: 140%;
     font-weight: normal
 }
-header li {
+
+#head-nav li {
     display: block;
     position: relative;
     float: right;
@@ -46,8 +52,8 @@ header li {
     font-size: 80%;
     text-transform: uppercase;
 }
-header nav li.active:after,
-header nav li.active:before {
+#head-nav .active:after,
+#head-nav .active:before {
   display: block;
   position: absolute;
   bottom: -1px;
@@ -57,33 +63,36 @@ header nav li.active:before {
   border-width: 0 12px 12px;
   content: "";
 }
-header nav li.active:before {
+#head-nav .active:before {
   bottom: 0;
   border-color: #bbb transparent;
 }
-header nav a {
+
+#head-nav a {
     text-decoration: none;
     color: #888;
 }
-header nav .active a {
+#head-nav .active a {
     color: #C33;
 }
-header nav a:hover {
+#head-nav a:hover {
     text-decoration: underline;
 }
 
 /* controllers */
-.controllers {
+#controllers {
     position: relative;
     z-index: 2;
     float: left;
     width: 14em;
     font-size: 80%;
 }
-.controllers .show {
+
+#controllers .show {
     background-color: #f2f2f2;
 }
-.controllers h1 {
+
+#controllers h1 {
     margin: 0;
     padding: 0 14px;
     background-color: #eee;
@@ -92,16 +101,16 @@ header nav a:hover {
     font-size: 100%;
     font-weight: normal;
 }
-.controllers .show h1 {
+#controllers .show h1 {
     background-color: #eee;
     font-weight: bold;
 }
-.controllers h1:hover {
+#controllers h1:hover {
     cursor: pointer;
     background-color: #eee;
     font-weight: bold;
 }
-.controllers h1:before {
+#controllers h1:before {
     display: inline-block;
     position: relative;
     bottom: 0.1em;
@@ -111,42 +120,47 @@ header nav a:hover {
     font-size: 80%;
     color: #666;
 }
-.controllers .show h1:before {
+#controllers .show h1:before {
     content: '▼';
 }
-.controllers ul {
+
+#controllers ul {
     display: none;
     margin: 0;
     padding: 0;
     list-style-type: none;
     line-height: 1.8;
 }
-.controllers .show ul {
+#controllers .show ul {
     display: block;
 }
-.controllers li {
+
+#controllers li {
     margin: 0;
     padding: 6px 6px 0 32px;
 }
-.controllers li:nth-child(odd) {
+#controllers li:nth-child(odd) {
     background-color: #f8f8f8;
 }
-.controllers li.loading {
+#controllers li.loading {
     background-image: url(../images/loader-r.gif);
     background-repeat: no-repeat;
     background-position: 90% 50%;
     background-size: 12px 12px;
 }
-.controllers input[type='checkbox'] {
+
+#controllers input[type='checkbox'] {
     margin-right: 6px;
 }
+
 /* pa filter */
-.controllers .pa_filter {
+#pa-filter {
     position: relative;
     margin: 0 0 12px 0;
     padding: 0 0 0 32px;
 }
-.controllers input[type='text'] {
+
+#pa-filter-box[type='text'] {
     width: 100%;
     height: 32px;
     padding: 0 6px;
@@ -158,10 +172,11 @@ header nav a:hover {
     box-sizing: border-box;
     color: #888;
 }
-.controllers .pa_filter.active input[type='text'] {
+.active #pa-filter-box[type='text'] {
     color: #333;
 }
-.controllers .pa_filter dl {
+
+#pa-filter dl {
     display: none;
     opacity: 0.9;
     position: absolute;
@@ -181,36 +196,31 @@ header nav a:hover {
     line-height: 2;
     font-size: 80%;
 }
-.controllers .pa_filter.active dl {
+#pa-filter.active dl {
     display: block;
 }
-.controllers .pa_filter dl:after {
+#pa-filter dl:after {
     display: block;
     clear: both;
     content: "";
 }
 
-.controllers .pa_filter dt{
+#pa-filter dt{
     float: left;
     width: 7em;
     margin: 0;
     padding: 0;
 }
-.controllers .pa_filter dd {
+
+#pa-filter dd {
     float: left;
     width: 8em;
     margin: 0;
     padding: 0;
 }
-.filtered {
-    display: none;
-}
-
-
 
 /* contents */
-
-.contents {
+#contents {
     position: relative;
     z-index: 1;
     float: left;
@@ -226,22 +236,20 @@ header nav a:hover {
     box-sizing: border-box;
     font-size: 80%;
 }
-#main_table {
+
+#main-table {
     width: 100%;
     margin: 0;
     padding: 0;
     border-collapse: collapse;
 }
-th, td {
+
+th,
+td {
     padding: 0 6px;
     line-height: 16px;
 }
-tr:hover td {
-    background-color: #faf6dd;
-}
-tr.pinned td {
-    background-color: #fed;
-}
+
 th {
     cursor: pointer;
     padding-top: 8px;
@@ -255,14 +263,21 @@ th {
 th:hover {
     text-decoration: underline;
 }
+
 td {
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
     text-align: right;
 }
-tbody tr:first-child td {
+tr:first-child td {
     padding-top: 7px;
+}
+tr:hover td {
+    background-color: #faf6dd;
+}
+.pinned td {
+    background-color: #fed;
 }
 td.team {
     text-transform: uppercase;
@@ -271,11 +286,15 @@ td.team {
 td.name {
     text-align: left;
 }
-td.bats, td.throws {
+td.bats,
+td.throws {
     text-align: center;
 }
-.hide_column,
-.hide_row {
+
+/* hidden  */
+.hide-column,
+.hide-row,
+.filtered {
     display: none;
 }
 
@@ -287,12 +306,12 @@ td.bats, td.throws {
     color: #44E;
 }
 
-
 /* footer */
 footer {
     clear: both;
     padding-top: 32px;
 }
+
 address {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;

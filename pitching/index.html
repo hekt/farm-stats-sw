@@ -1,138 +1,138 @@
 <!DOCTYPE html>
 <html lang="ja" class="pitching">
 
-<head>
-  <meta charset="UTF-8">
-  <title>NPB Farm Stats 2013 | Pitching Stats</title>
-  <link rel="stylesheet" href="../styles/view.css">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="../scripts/jquery.tablesorter.js"></script>
-  <script src="../scripts/jquery.cookie.js"></script>
-  <script src="../scripts/ga.js"></script>
-  <script src="../scripts/view.js"></script>
-</head>
-
-<body>
+<meta charset="UTF-8">
+<title>NPB Farm Stats 2013 | Pitching Stats</title>
+<link rel="stylesheet" href="../styles/view.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="../scripts/jquery.tablesorter.js"></script>
+<script src="../scripts/jquery.cookie.js"></script>
+<script src="../scripts/ga.js"></script>
+<script src="../scripts/view.js"></script>
 
 <header>
-  <h1>NPB Farm Stats</h1>
-  <nav>
+  <h1 id="title">NPB Farm Stats</h1>
+  <nav id="head-nav">
     <ul>
-      <li><a href="../batting/">Batting</a></li>
-      <li class="active"><a href="../pitching/">Pitching</a></li>
+      <li><a href="../batting/">Batting</a>
+      <li class="active"><a href="../pitching/">Pitching</a>
     </ul>
   </nav>
 </header>
 
-<div class="controllers">
-  <div class="pa_filter">
+<div id="controllers">
+  <div id="pa-filter">
     <form>
-      <input type="text" value="投球回フィルター">
+      <input type="text" value="投球回フィルター" id="pa-filter-box">
     </form>
     <dl>
-      <dt><b>Enter</b></dt><dd><b>フィルタ実行</b></dd>
-      <dt>260</dt><dd>260イニング以上</dd>
-      <dt>&lt;10</dt><dd>10イニング未満</dd>
-      <dt>&gt;7</dt><dd>7イニング超</dd>
-      <dt>&lt;=626</dt><dd>626イニング以下</dd>
+      <dt><b>Enter</b>
+      <dd><b>フィルタ実行</b>
+      <dt>260
+      <dd>260イニング以上
+      <dt>&lt;10
+      <dd>10イニング未満
+      <dt>&gt;7
+      <dd>7イニング超
+      <dt>&lt;=626
+      <dd>626イニング以下
     </dl>
   </div>
-  <div class="list view_teams show">
+  <div id="view-teams" class="list show">
     <h1>表示チーム</h1>
     <ul>
-      <li class="m"><label class="hideteam"><input type="checkbox" class="team" value="m" name="m"><span class="labeltext">ロッテ</span></label></li>
-      <li class="g"><label class="hideteam"><input type="checkbox" class="team" value="g" name="g"><span class="labeltext">巨人</span></label></li>
-      <li class="db"><label class="hideteam"><input type="checkbox" class="team" value="db" name="db"><span class="labeltext">横浜</span></label></li>
-      <li class="e"><label class="hideteam"><input type="checkbox" class="team" value="e" name="e"><span class="labeltext">楽天</span></label></li>
-      <li class="f"><label class="hideteam"><input type="checkbox" class="team" value="f" name="f"><span class="labeltext">日本ハム</span></label></li>
-      <li class="s"><label class="hideteam"><input type="checkbox" class="team" value="s" name="s"><span class="labeltext">ヤクルト</span></label></li>
-      <li class="l"><label class="hideteam"><input type="checkbox" class="team" value="l" name="l"><span class="labeltext">西武</span></label></li>
-      <li class="t"><label class="hideteam"><input type="checkbox" class="team" value="t" name="t"><span class="labeltext">阪神</span></label></li>
-      <li class="bs"><label class="hideteam"><input type="checkbox" class="team" value="bs" name="bs"><span class="labeltext">オリックス</span></label></li>
-      <li class="h"><label class="hideteam"><input type="checkbox" class="team" value="h" name="h"><span class="labeltext">ソフトバンク</span></label></li>
-      <li class="d"><label class="hideteam"><input type="checkbox" class="team" value="d" name="d"><span class="labeltext">中日</span></label></li>
-      <li class="c"><label class="hideteam"><input type="checkbox" class="team" value="c" name="c"><span class="labeltext">広島</span></label></li>
+      <li class="m"><label class="hideteam"><input type="checkbox" class="team" value="m" name="m"><span class="labeltext">ロッテ</span></label>
+      <li class="g"><label class="hideteam"><input type="checkbox" class="team" value="g" name="g"><span class="labeltext">巨人</span></label>
+      <li class="db"><label class="hideteam"><input type="checkbox" class="team" value="db" name="db"><span class="labeltext">横浜</span></label>
+      <li class="e"><label class="hideteam"><input type="checkbox" class="team" value="e" name="e"><span class="labeltext">楽天</span></label>
+      <li class="f"><label class="hideteam"><input type="checkbox" class="team" value="f" name="f"><span class="labeltext">日本ハム</span></label>
+      <li class="s"><label class="hideteam"><input type="checkbox" class="team" value="s" name="s"><span class="labeltext">ヤクルト</span></label>
+      <li class="l"><label class="hideteam"><input type="checkbox" class="team" value="l" name="l"><span class="labeltext">西武</span></label>
+      <li class="t"><label class="hideteam"><input type="checkbox" class="team" value="t" name="t"><span class="labeltext">阪神</span></label>
+      <li class="bs"><label class="hideteam"><input type="checkbox" class="team" value="bs" name="bs"><span class="labeltext">オリックス</span></label>
+      <li class="h"><label class="hideteam"><input type="checkbox" class="team" value="h" name="h"><span class="labeltext">ソフトバンク</span></label>
+      <li class="d"><label class="hideteam"><input type="checkbox" class="team" value="d" name="d"><span class="labeltext">中日</span></label>
+      <li class="c"><label class="hideteam"><input type="checkbox" class="team" value="c" name="c"><span class="labeltext">広島</span></label>
     </ul>
   </div>
 
-  <div class="list view_stats">
+  <div id="view-stats" class="list">
     <h1>表示項目</h1>
     <ul>
-      <li class="team"><label><input type="checkbox" name="team" value="team">チーム</label></li>
-      <li class="throws"><label><input type="checkbox" name="throws" value="throws">利き腕</label></li>
-      <li class="name"><label><input type="checkbox" name="name" value="name">名前</label></li>
-      <li class="g"><label><input type="checkbox" name="g" value="g">試合数</label></li>
-      <li class="w"><label><input type="checkbox" name="w" value="w">勝利</label></li>
-      <li class="l"><label><input type="checkbox" name="l" value="l">敗北</label></li>
-      <li class="sv"><label><input type="checkbox" name="sv" value="sv">セーブ</label></li>
-      <li class="cg"><label><input type="checkbox" name="cg" value="cg">完投</label></li>
-      <li class="sho"><label><input type="checkbox" name="sho" value="sho">完封</label></li>
-      <li class="zbc"><label><input type="checkbox" name="zbc" value="zbc">無四球</label></li>
-      <li class="wpct"><label><input type="checkbox" name="wpct" value="wpct">勝率</label></li>
-      <li class="bf"><label><input type="checkbox" name="bf" value="bf">打者</label></li>
-      <li class="ip"><label><input type="checkbox" name="ip" value="ip">投球回</label></li>
-      <li class="h"><label><input type="checkbox" name="h" value="h">被安打</label></li>
-      <li class="hr"><label><input type="checkbox" name="hr" value="hr">被本塁打</label></li>
-      <li class="bb"><label><input type="checkbox" name="bb" value="bb">与四球</label></li>
-      <li class="ibb"><label><input type="checkbox" name="ibb" value="ibb">故意四球</label></li>
-      <li class="hb"><label><input type="checkbox" name="hb" value="hb">与死球</label></li>
-      <li class="so"><label><input type="checkbox" name="so" value="so">奪三振</label></li>
-      <li class="wp"><label><input type="checkbox" name="wp" value="wp">暴投</label></li>
-      <li class="bk"><label><input type="checkbox" name="bk" value="bk">ボーク</label></li>
-      <li class="r"><label><input type="checkbox" name="r" value="r">失点</label></li>
-      <li class="er"><label><input type="checkbox" name="er" value="er">自責点</label></li>
-      <li class="era"><label><input type="checkbox" name="era" value="era">防御率</label></li>
-      <li class="whip"><label><input type="checkbox" name="whip" value="whip">WHIP</label></li>
-      <li class="fip"><label><input type="checkbox" name="fip" value="fip">FIP</label></li>
-      <li class="lobp"><label><input type="checkbox" name="lobp" value="lobp">LOB%</label></li>
-      <li class="kbb"><label><input type="checkbox" name="kbb" value="kbb">K/BB</label></li>
-      <li class="k9"><label><input type="checkbox" name="k9" value="k9">K/9</label></li>
-      <li class="bb9"><label><input type="checkbox" name="bb9" value="bb9">BB/9</label></li>
-      <li class="hr9"><label><input type="checkbox" name="hr9" value="hr9">HR/9</label></li>
-      <li class="ipg"><label><input type="checkbox" name="ipg" value="ipg">IP/G</label></li>
-      <li class="babip"><label><input type="checkbox" name="babip" value="babip">BABIP</label></li>
+      <li class="team"><label><input type="checkbox" name="team" value="team">チーム</label>
+      <li class="throws"><label><input type="checkbox" name="throws" value="throws">利き腕</label>
+      <li class="name"><label><input type="checkbox" name="name" value="name">名前</label>
+      <li class="g"><label><input type="checkbox" name="g" value="g">試合数</label>
+      <li class="w"><label><input type="checkbox" name="w" value="w">勝利</label>
+      <li class="l"><label><input type="checkbox" name="l" value="l">敗北</label>
+      <li class="sv"><label><input type="checkbox" name="sv" value="sv">セーブ</label>
+      <li class="cg"><label><input type="checkbox" name="cg" value="cg">完投</label>
+      <li class="sho"><label><input type="checkbox" name="sho" value="sho">完封</label>
+      <li class="zbc"><label><input type="checkbox" name="zbc" value="zbc">無四球</label>
+      <li class="wpct"><label><input type="checkbox" name="wpct" value="wpct">勝率</label>
+      <li class="bf"><label><input type="checkbox" name="bf" value="bf">打者</label>
+      <li class="ip"><label><input type="checkbox" name="ip" value="ip">投球回</label>
+      <li class="h"><label><input type="checkbox" name="h" value="h">被安打</label>
+      <li class="hr"><label><input type="checkbox" name="hr" value="hr">被本塁打</label>
+      <li class="bb"><label><input type="checkbox" name="bb" value="bb">与四球</label>
+      <li class="ibb"><label><input type="checkbox" name="ibb" value="ibb">故意四球</label>
+      <li class="hb"><label><input type="checkbox" name="hb" value="hb">与死球</label>
+      <li class="so"><label><input type="checkbox" name="so" value="so">奪三振</label>
+      <li class="wp"><label><input type="checkbox" name="wp" value="wp">暴投</label>
+      <li class="bk"><label><input type="checkbox" name="bk" value="bk">ボーク</label>
+      <li class="r"><label><input type="checkbox" name="r" value="r">失点</label>
+      <li class="er"><label><input type="checkbox" name="er" value="er">自責点</label>
+      <li class="era"><label><input type="checkbox" name="era" value="era">防御率</label>
+      <li class="whip"><label><input type="checkbox" name="whip" value="whip">WHIP</label>
+      <li class="fip"><label><input type="checkbox" name="fip" value="fip">FIP</label>
+      <li class="lobp"><label><input type="checkbox" name="lobp" value="lobp">LOB%</label>
+      <li class="kbb"><label><input type="checkbox" name="kbb" value="kbb">K/BB</label>
+      <li class="k9"><label><input type="checkbox" name="k9" value="k9">K/9</label>
+      <li class="bb9"><label><input type="checkbox" name="bb9" value="bb9">BB/9</label>
+      <li class="hr9"><label><input type="checkbox" name="hr9" value="hr9">HR/9</label>
+      <li class="ipg"><label><input type="checkbox" name="ipg" value="ipg">IP/G</label>
+      <li class="babip"><label><input type="checkbox" name="babip" value="babip">BABIP</label>
     </ul>
   </div>
 </div>
 
-<div class="contents">
-<table id="main_table" class="tablesorter">
+<div id="contents">
+<table id="main-table" class="tablesorter">
   <thead>
     <tr>
-      <th class="team">チーム</th>
-      <th class="throws">利き腕</th>
-      <th class="name">名前</th>
-      <th class="g">試合数</th>
-      <th class="w">勝利</th>
-      <th class="l">敗北</th>
-      <th class="sv">セーブ</th>
-      <th class="cg">完投</th>
-      <th class="sho">完封</th>
-      <th class="zbc">無四球</th>
-      <th class="wpct">勝率</th>
-      <th class="bf">打者</th>
-      <th class="ip">投球回</th>
-      <th class="h">被安打</th>
-      <th class="hr">被本塁打</th>
-      <th class="bb">与四球</th>
-      <th class="ibb">故意四球</th>
-      <th class="hbp">与死球</th>
-      <th class="so">奪三振</th>
-      <th class="wp">暴投</th>
-      <th class="bk">ボーク</th>
-      <th class="r">失点</th>
-      <th class="er">自責点</th>
-      <th class="era">防御率</th>
-      <th class="whip">WHIP</th>
-      <th class="fip">FIP</th>
-      <th class="lobp">LOB%</th>
-      <th class="kbb">K/BB</th>
-      <th class="k9">K/9</th>
-      <th class="bb9">BB/9</th>
-      <th class="hr9">HR/9</th>
-      <th class="ipg">IP/G</th>
-      <th class="babip">BABIP</th>
-    </tr>
+      <th class="team">チーム
+      <th class="throws">利き腕
+      <th class="name">名前
+      <th class="g">試合数
+      <th class="w">勝利
+      <th class="l">敗北
+      <th class="sv">セーブ
+      <th class="cg">完投
+      <th class="sho">完封
+      <th class="zbc">無四球
+      <th class="wpct">勝率
+      <th class="bf">打者
+      <th class="ip">投球回
+      <th class="h">被安打
+      <th class="hr">被本塁打
+      <th class="bb">与四球
+      <th class="ibb">故意四球
+      <th class="hbp">与死球
+      <th class="so">奪三振
+      <th class="wp">暴投
+      <th class="bk">ボーク
+      <th class="r">失点
+      <th class="er">自責点
+      <th class="era">防御率
+      <th class="whip">WHIP
+      <th class="fip">FIP
+      <th class="lobp">LOB%
+      <th class="kbb">K/BB
+      <th class="k9">K/9
+      <th class="bb9">BB/9
+      <th class="hr9">HR/9
+      <th class="ipg">IP/G
+      <th class="babip">BABIP
   </thead>
 
   <tbody></tbody>
