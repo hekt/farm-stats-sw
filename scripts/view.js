@@ -68,7 +68,8 @@
           var query = BASE_QUERY + "'" + team + "'";
           $.ajax({
               url: BASE_URL + encodeURI(query),
-              dataType: 'json',
+              dataType: 'jsonp',
+              cache: false,
               success: function(data){
                   $('.loading').removeClass('loading');
                   viewer(data);
