@@ -145,7 +145,7 @@ def scrape(team):
         if tr.cssselect("td.stplayer"):
             tds = tr.cssselect("td")
             contents = map(lambda x: x.text_content(), tds)
-            for i in range(2, STATS_LENGTH):
+            for i in range(1, STATS_LENGTH):
                 contents[i] = int(contents[i])
             
             data = zipdict(STATS, contents)

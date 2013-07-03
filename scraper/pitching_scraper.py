@@ -134,7 +134,7 @@ def scrape(team):
         if tr.cssselect("td.stplayer"):
             tds = tr.cssselect("td")
             contents = map(lambda x: x.text_content(), tds)
-            for i in range(2, SCRAPE_STATS_LENGTH):
+            for i in range(1, SCRAPE_STATS_LENGTH):
                 if contents[i].find('.') != -1:
                     contents[i] = float(contents[i])
                 elif contents[i] == '----' or contents[i] == '+':
